@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Learning - Calm & Kind</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(180deg, #f9faff, #e8f0ff);
+      font-family: "Comic Neue", "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #root {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 500px;
+      background: white;
+      border-radius: 2rem;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      overflow-y: auto;
+      max-height: 90vh;
+    }
+
+    .container::-webkit-scrollbar { display: none; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 1.2rem;
+      font-size: 1.3rem;
+      border-radius: 1.5rem;
+      color: white;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn + .btn { margin-top: 1rem; }
+
+    .btn-green { background-color: #34d399; }
+    .btn-green:hover { background-color: #10b981; }
+
+    .btn-blue { background-color: #60a5fa; }
+    .btn-blue:hover { background-color: #3b82f6; }
+
+    .btn-pink { background-color: #f472b6; }
+    .btn-pink:hover { background-color: #ec4899; }
+
+    .btn-yellow { background-color: #facc15; color: #333; }
+    .btn-yellow:hover { background-color: #eab308; }
+
+    .btn-red { background-color: #f87171; }
+    .btn-red:hover { background-color: #ef4444; }
+
+    .toggle {
+      width: 60px;
+      height: 30px;
+      background: #ddd;
+      border-radius: 20px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .toggle::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: white;
+      transition: 0.3s ease;
+    }
+
+    .toggle.active { background: #86efac; }
+    .toggle.active::before { transform: translateX(28px); }
+
+    .fade-in {
+      animation: fadein 0.8s ease;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: #f9fafb;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Calm background music
+    const useBackgroundMusic = (enabled) => {
+      useEffect(() => {
+        const audio = new Audio("https://cdn.pixabay.com/audio/2022/03/15/audio_ba5d24e9e7.mp3");
+        audio.loop = true;
+        if (enabled) {
+          audio.volume = 0.15;
+          audio.play().catch(()=>{});
+        } else audio.pause();
+        return () => audio.pause();
+      }, [enabled]);
+    };
+
+    // Start Screen
+    const StartScreen = ({ onStart }) => (
+      <div className="fade-in container">
+        <h1 className="text-4xl font-bold text-blue-600 mb-6">🌈 Family Learning</h1>
+        <p className="text-lg text-gray-700 mb-8">Calm, Kind & Fun Learning Together 💖</p>
+        <button className="btn btn-green text-2xl" onClick={onStart}>▶️ Start</button>
+      </div>
+    );
+
+    // Home Screen
+    const HomeView = ({ name, navigate }) => (
+      <div className="fade-in container">
+        <h1 className="text-3xl font-bold text-blue-600 mb-6">Hello {name || "Friend"} 👋</h1>
+        <p className="text-gray-600 mb-8 text-lg">Let's learn and play together!</p>
+        <button className="btn btn-green" onClick={() => navigate("learn")}>📘 Learn</button>
+        <button className="btn btn-blue" onClick={() => navigate("quiz")}>🧠 Quiz</button>
+        <button className="btn btn-pink" onClick={() => navigate("settings")}>⚙️ Settings</button>
+      </div>
+    );
+
+    // Learn View
+    const LearnView = ({ goBack }) => (
+      <div className="fade-in container">
+        <h2 className="text-3xl font-bold text-blue-700 mb-6">Learning Time 🌟</h2>
+        {[
+          { topic: "Good Habits", desc: "Brush your teeth and wash hands every day." },
+          { topic: "Helping Others", desc: "Help your family with a big smile." },
+          { topic: "Sharing", desc: "Share toys and snacks with friends." },
+          { topic: "Kind Words", desc: "Say please, thank you, and sorry." }
+        ].map(({ topic, desc }) => (
+          <div className="card" key={topic}>
+            <h3 className="text-2xl font-semibold text-blue-600 mb-2">{topic}</h3>
+            <p className="text-lg text-gray-600">{desc}</p>
+          </div>
+        ))}
+        <button className="btn btn-yellow mt-4" onClick={goBack}>⬅️ Back</button>
+      </div>
+    );
+
+    // Quiz View
+    const QuizView = ({ goBack }) => {
+      const [step, setStep] = useState(0);
+      const [score, setScore] = useState(0);
+      const [done, setDone] = useState(false);
+
+      const questions = [
+        { q: "What do you do before eating?", a: "Wash hands", options: ["Sleep", "Wash hands", "Play", "Run"] },
+        { q: "Who helps when you're sick?", a: "Doctor", options: ["Chef", "Doctor", "Teacher", "Friend"] },
+        { q: "What do we call sharing toys?", a: "Kindness", options: ["Greed", "Kindness", "Anger", "Hiding"] },
+      ];
+
+      const handle = (ans) => {
+        if (ans === questions[step].a) setScore(score + 1);
+        if (step + 1 < questions.length) setStep(step + 1);
+        else setDone(true);
+      };
+
+      return (
+        <div className="fade-in container">
+          {!done ? (
+            <>
+              <h2 className="text-3xl font-bold text-blue-700 mb-6">Quiz Time 🧩</h2>
+              <div className="card mb-6">
+                <h3 className="text-xl font-semibold mb-4">{questions[step].q}</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {questions[step].options.map((opt) => (
+                    <button key={opt} className="btn btn-green" onClick={() => handle(opt)}>{opt}</button>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="text-3xl font-bold text-green-600 mb-4">🎉 Great Job!</h2>
+              <p className="text-xl text-gray-700 mb-6">You got {score} / {questions.length} correct!</p>
+            </>
+          )}
+          <button className="btn btn-yellow" onClick={goBack}>🏠 Home</button>
+        </div>
+      );
+    };
+
+    // Settings
+    const SettingsView = ({ name, setName, sound, setSound, reset, close }) => (
+      <div className="fade-in container">
+        <h2 className="text-3xl font-bold text-blue-600 mb-6">Settings ⚙️</h2>
+        <div className="space-y-6">
+          <div>
+            <label className="block text-lg font-semibold mb-2">Your Name:</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full p-4 border-2 border-gray-300 rounded-2xl text-lg focus:border-blue-400"
+              placeholder="Enter your name"
+            />
+          </div>
+
+          <div className="flex justify-between items-center bg-gray-100 p-3 rounded-2xl">
+            <label className="text-lg font-semibold">Calm Music</label>
+            <div className={`toggle ${sound ? "active" : ""}`} onClick={() => setSound(!sound)}></div>
+          </div>
+
+          <button className="btn btn-red" onClick={reset}>🧹 Reset Progress</button>
+          <button className="btn btn-yellow" onClick={close}>⬅️ Back</button>
+        </div>
+      </div>
+    );
+
+    const App = () => {
+      const [page, setPage] = useState("start");
+      const [name, setName] = useState("");
+      const [sound, setSound] = useState(false);
+
+      useBackgroundMusic(sound);
+
+      const resetAll = () => {
+        setName("");
+        alert("Progress reset! Let's start again!");
+      };
+
+      return (
+        <>
+          {page === "start" && <StartScreen onStart={() => setPage("home")} />}
+          {page === "home" && <HomeView name={name} navigate={setPage} />}
+          {page === "learn" && <LearnView goBack={() => setPage("home")} />}
+          {page === "quiz" && <QuizView goBack={() => setPage("home")} />}
+          {page === "settings" && (
+            <SettingsView
+              name={name}
+              setName={setName}
+              sound={sound}
+              setSound={setSound}
+              reset={resetAll}
+              close={() => setPage("home")}
+            />
+          )}
+        </>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
