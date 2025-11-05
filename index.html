@@ -8,8 +8,11 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Poppins:wght@400;600;700&display=swap');
+    
     html, body {
       height: 100%;
       margin: 0;
@@ -40,6 +43,15 @@
       text-align: center;
       overflow-y: auto;
       max-height: 90vh;
+      position: relative;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: 95%;
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+      }
     }
 
     .container::-webkit-scrollbar { display: none; }
@@ -52,7 +64,13 @@
       border-radius: 1.5rem;
       color: white;
       font-weight: bold;
-      transition: 0.3s;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
     }
 
     .btn + .btn { margin-top: 1rem; }
@@ -71,6 +89,9 @@
 
     .btn-red { background-color: #f87171; }
     .btn-red:hover { background-color: #ef4444; }
+
+    .btn-purple { background-color: #a78bfa; }
+    .btn-purple:hover { background-color: #8b5cf6; }
 
     .toggle {
       width: 60px;
@@ -112,6 +133,238 @@
       padding: 1.5rem;
       margin-bottom: 1rem;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .visual-timer {
+      width: 100%;
+      height: 10px;
+      background: #e5e7eb;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+
+    .visual-timer-bar {
+      height: 100%;
+      background: #34d399;
+      transition: width 1s linear;
+    }
+
+    .emotion-selector {
+      display: flex;
+      justify-content: space-around;
+      margin: 1rem 0;
+    }
+
+    .emotion-btn {
+      font-size: 2.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.3s;
+      padding: 0.5rem;
+    }
+
+    .emotion-btn:hover, .emotion-btn.selected {
+      transform: scale(1.2);
+    }
+
+    .breathing-circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: #60a5fa;
+      margin: 2rem auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .breathing-circle.inhale {
+      animation: breathe-in 4s ease-in-out;
+    }
+
+    .breathing-circle.exhale {
+      animation: breathe-out 4s ease-in-out;
+    }
+
+    @keyframes breathe-in {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes breathe-out {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.7); }
+      100% { transform: scale(1); }
+    }
+
+    .schedule-item {
+      display: flex;
+      align-items: center;
+      background: #f0f9ff;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+      text-align: left;
+    }
+
+    .schedule-icon {
+      font-size: 2rem;
+      margin-right: 1rem;
+    }
+
+    .schedule-text {
+      flex: 1;
+    }
+
+    .schedule-time {
+      font-weight: bold;
+      color: #3b82f6;
+    }
+
+    .sound-button {
+      background: none;
+      border: none;
+      color: #3b82f6;
+      font-size: 1.5rem;
+      cursor: pointer;
+      margin-left: 0.5rem;
+    }
+
+    .sensory-mode {
+      background: #1e293b;
+      color: #f1f5f9;
+    }
+
+    .sensory-mode .card {
+      background: #334155;
+      color: #f1f5f9;
+    }
+
+    .sensory-mode .btn {
+      filter: brightness(0.8);
+    }
+
+    .activity-card {
+      background: #f0f9ff;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .activity-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .activity-icon {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .activity-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .activity-desc {
+      color: #64748b;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      background: #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #34d399;
+      transition: width 0.5s ease;
+    }
+
+    .floating-button {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #3b82f6;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .floating-button:hover {
+      transform: scale(1.1);
+      background: #2563eb;
+    }
+
+    .sensory-options {
+      display: flex;
+      justify-content: space-around;
+      margin: 1rem 0;
+    }
+
+    .sensory-option {
+      text-align: center;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      transition: background 0.3s;
+    }
+
+    .sensory-option:hover {
+      background: #f0f9ff;
+    }
+
+    .sensory-option.selected {
+      background: #dbeafe;
+    }
+
+    .pictogram {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .reward-star {
+      color: #facc15;
+      font-size: 2rem;
+      margin: 0 0.2rem;
+    }
+
+    .reward-star.earned {
+      animation: star-pop 0.5s ease;
+    }
+
+    @keyframes star-pop {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
@@ -120,7 +373,34 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useRef } = React;
+
+    // Sound effects
+    const playSound = (soundType) => {
+      const sounds = {
+        click: "https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1126.mp3",
+        success: "https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3",
+        correct: "https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3",
+        wrong: "https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3",
+        transition: "https://assets.mixkit.co/sfx/preview/mixkit-game-ball-tap-2073.mp3",
+        reward: "https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3",
+        breathing: "https://assets.mixkit.co/sfx/preview/mixkit-wind-sound-1159.mp3"
+      };
+
+      const audio = new Audio(sounds[soundType]);
+      audio.volume = 0.3;
+      audio.play().catch(() => {});
+    };
+
+    // Text to speech
+    const speak = (text) => {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.9;
+        utterance.pitch = 1.1;
+        speechSynthesis.speak(utterance);
+      }
+    };
 
     // Calm background music
     const useBackgroundMusic = (enabled) => {
@@ -136,72 +416,210 @@
     };
 
     // Start Screen
-    const StartScreen = ({ onStart }) => (
-      <div className="fade-in container">
-        <h1 className="text-4xl font-bold text-blue-600 mb-6">🌈 Family Learning</h1>
-        <p className="text-lg text-gray-700 mb-8">Calm, Kind & Fun Learning Together 💖</p>
-        <button className="btn btn-green text-2xl" onClick={onStart}>▶️ Start</button>
-      </div>
-    );
+    const StartScreen = ({ onStart, soundEnabled }) => {
+      useEffect(() => {
+        if (soundEnabled) {
+          speak("Welcome to Family Learning. Let's learn and play together!");
+        }
+      }, [soundEnabled]);
+
+      return (
+        <div className="fade-in container">
+          <h1 className="text-4xl font-bold text-blue-600 mb-6">🌈 Family Learning</h1>
+          <p className="text-lg text-gray-700 mb-8">Calm, Kind & Fun Learning Together 💖</p>
+          <button className="btn btn-green text-2xl" onClick={() => {onStart(); playSound('click');}}>
+            ▶️ Start
+          </button>
+        </div>
+      );
+    };
 
     // Home Screen
-    const HomeView = ({ name, navigate }) => (
-      <div className="fade-in container">
+    const HomeView = ({ name, navigate, soundEnabled, sensoryMode }) => (
+      <div className={`fade-in container ${sensoryMode ? 'sensory-mode' : ''}`}>
         <h1 className="text-3xl font-bold text-blue-600 mb-6">Hello {name || "Friend"} 👋</h1>
         <p className="text-gray-600 mb-8 text-lg">Let's learn and play together!</p>
-        <button className="btn btn-green" onClick={() => navigate("learn")}>📘 Learn</button>
-        <button className="btn btn-blue" onClick={() => navigate("quiz")}>🧠 Quiz</button>
-        <button className="btn btn-pink" onClick={() => navigate("settings")}>⚙️ Settings</button>
+        
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <button 
+            className="btn btn-green" 
+            onClick={() => {navigate("learn"); playSound('click');}}
+          >
+            📘 Learn
+          </button>
+          <button 
+            className="btn btn-blue" 
+            onClick={() => {navigate("quiz"); playSound('click');}}
+          >
+            🧠 Quiz
+          </button>
+          <button 
+            className="btn btn-pink" 
+            onClick={() => {navigate("activities"); playSound('click');}}
+          >
+            🎨 Activities
+          </button>
+          <button 
+            className="btn btn-purple" 
+            onClick={() => {navigate("schedule"); playSound('click');}}
+          >
+            📅 Schedule
+          </button>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4">
+          <button 
+            className="btn btn-yellow" 
+            onClick={() => {navigate("breathing"); playSound('click');}}
+          >
+            🫁 Breathing
+          </button>
+          <button 
+            className="btn btn-red" 
+            onClick={() => {navigate("settings"); playSound('click');}}
+          >
+            ⚙️ Settings
+          </button>
+        </div>
       </div>
     );
 
     // Learn View
-    const LearnView = ({ goBack }) => (
-      <div className="fade-in container">
-        <h2 className="text-3xl font-bold text-blue-700 mb-6">Learning Time 🌟</h2>
-        {[
-          { topic: "Good Habits", desc: "Brush your teeth and wash hands every day." },
-          { topic: "Helping Others", desc: "Help your family with a big smile." },
-          { topic: "Sharing", desc: "Share toys and snacks with friends." },
-          { topic: "Kind Words", desc: "Say please, thank you, and sorry." }
-        ].map(({ topic, desc }) => (
-          <div className="card" key={topic}>
-            <h3 className="text-2xl font-semibold text-blue-600 mb-2">{topic}</h3>
-            <p className="text-lg text-gray-600">{desc}</p>
-          </div>
-        ))}
-        <button className="btn btn-yellow mt-4" onClick={goBack}>⬅️ Back</button>
-      </div>
-    );
+    const LearnView = ({ goBack, soundEnabled, sensoryMode }) => {
+      const [selectedCard, setSelectedCard] = useState(null);
+
+      useEffect(() => {
+        if (soundEnabled && selectedCard !== null) {
+          speak(`You selected ${selectedCard.topic}. ${selectedCard.desc}`);
+        }
+      }, [selectedCard, soundEnabled]);
+
+      const learningCards = [
+        { topic: "Good Habits", desc: "Brush your teeth and wash hands every day.", icon: "🦷" },
+        { topic: "Helping Others", desc: "Help your family with a big smile.", icon: "🤝" },
+        { topic: "Sharing", desc: "Share toys and snacks with friends.", icon: "🎁" },
+        { topic: "Kind Words", desc: "Say please, thank you, and sorry.", icon: "💬" },
+        { topic: "Feelings", desc: "It's okay to feel happy, sad, or angry.", icon: "😊" },
+        { topic: "Taking Turns", desc: "Wait for your turn in games and conversations.", icon: "🔄" }
+      ];
+
+      return (
+        <div className={`fade-in container ${sensoryMode ? 'sensory-mode' : ''}`}>
+          <h2 className="text-3xl font-bold text-blue-700 mb-6">Learning Time 🌟</h2>
+          
+          {learningCards.map((card, index) => (
+            <div 
+              className={`card ${selectedCard === index ? 'ring-2 ring-blue-500' : ''}`} 
+              key={card.topic}
+              onClick={() => {setSelectedCard(index); playSound('click');}}
+            >
+              <div className="flex items-center">
+                <span className="text-4xl mr-4">{card.icon}</span>
+                <div className="text-left">
+                  <h3 className="text-2xl font-semibold text-blue-600 mb-2">{card.topic}</h3>
+                  <p className="text-lg text-gray-600">{card.desc}</p>
+                </div>
+              </div>
+              <button 
+                className="sound-button" 
+                onClick={(e) => {e.stopPropagation(); speak(`${card.topic}. ${card.desc}`); playSound('click');}}
+              >
+                <i className="fas fa-volume-up"></i>
+              </button>
+            </div>
+          ))}
+          
+          <button className="btn btn-yellow mt-4" onClick={() => {goBack(); playSound('click');}}>
+            ⬅️ Back
+          </button>
+        </div>
+      );
+    };
 
     // Quiz View
-    const QuizView = ({ goBack }) => {
+    const QuizView = ({ goBack, soundEnabled, sensoryMode }) => {
       const [step, setStep] = useState(0);
       const [score, setScore] = useState(0);
       const [done, setDone] = useState(false);
+      const [stars, setStars] = useState([false, false, false]);
 
       const questions = [
-        { q: "What do you do before eating?", a: "Wash hands", options: ["Sleep", "Wash hands", "Play", "Run"] },
-        { q: "Who helps when you're sick?", a: "Doctor", options: ["Chef", "Doctor", "Teacher", "Friend"] },
-        { q: "What do we call sharing toys?", a: "Kindness", options: ["Greed", "Kindness", "Anger", "Hiding"] },
+        { q: "What do you do before eating?", a: "Wash hands", options: ["Sleep", "Wash hands", "Play", "Run"], icon: "🧼" },
+        { q: "Who helps when you're sick?", a: "Doctor", options: ["Chef", "Doctor", "Teacher", "Friend"], icon: "👩‍⚕️" },
+        { q: "What do we call sharing toys?", a: "Kindness", options: ["Greed", "Kindness", "Anger", "Hiding"], icon: "🤗" },
+        { q: "How do you show you're listening?", a: "Look at person", options: ["Look away", "Look at person", "Run around", "Make noise"], icon: "👀" },
+        { q: "What should you do when you're angry?", a: "Take deep breaths", options: ["Hit something", "Take deep breaths", "Scream loudly", "Throw toys"], icon: "😤" }
       ];
 
-      const handle = (ans) => {
-        if (ans === questions[step].a) setScore(score + 1);
-        if (step + 1 < questions.length) setStep(step + 1);
-        else setDone(true);
+      const handleAnswer = (ans) => {
+        if (ans === questions[step].a) {
+          setScore(score + 1);
+          playSound('correct');
+          if (soundEnabled) {
+            speak("Good job! That's correct!");
+          }
+        } else {
+          playSound('wrong');
+          if (soundEnabled) {
+            speak("Not quite right. Let's try again next time!");
+          }
+        }
+        
+        if (step + 1 < questions.length) {
+          setStep(step + 1);
+        } else {
+          setDone(true);
+          playSound('success');
+          if (soundEnabled) {
+            speak(`Great job! You got ${score + (ans === questions[step].a ? 1 : 0)} out of ${questions.length} correct!`);
+          }
+          
+          // Animate stars based on score
+          const newStars = [false, false, false];
+          const percentage = (score + (ans === questions[step].a ? 1 : 0)) / questions.length;
+          if (percentage >= 0.33) newStars[0] = true;
+          if (percentage >= 0.66) newStars[1] = true;
+          if (percentage >= 1) newStars[2] = true;
+          
+          setStars(newStars);
+        }
       };
 
       return (
-        <div className="fade-in container">
+        <div className={`fade-in container ${sensoryMode ? 'sensory-mode' : ''}`}>
           {!done ? (
             <>
               <h2 className="text-3xl font-bold text-blue-700 mb-6">Quiz Time 🧩</h2>
+              
+              <div className="visual-timer">
+                <div 
+                  className="visual-timer-bar" 
+                  style={{width: `${100 - (step / questions.length) * 100}%`}}
+                ></div>
+              </div>
+              
               <div className="card mb-6">
-                <h3 className="text-xl font-semibold mb-4">{questions[step].q}</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-center mb-4">
+                  <span className="text-4xl mr-4">{questions[step].icon}</span>
+                  <h3 className="text-xl font-semibold">{questions[step].q}</h3>
+                </div>
+                
+                <button 
+                  className="sound-button float-right" 
+                  onClick={() => {speak(questions[step].q); playSound('click');}}
+                >
+                  <i className="fas fa-volume-up"></i>
+                </button>
+                
+                <div className="grid grid-cols-2 gap-3 mt-4">
                   {questions[step].options.map((opt) => (
-                    <button key={opt} className="btn btn-green" onClick={() => handle(opt)}>{opt}</button>
+                    <button 
+                      key={opt} 
+                      className="btn btn-green" 
+                      onClick={() => handleAnswer(opt)}
+                    >
+                      {opt}
+                    </button>
                   ))}
                 </div>
               </div>
@@ -210,17 +628,222 @@
             <>
               <h2 className="text-3xl font-bold text-green-600 mb-4">🎉 Great Job!</h2>
               <p className="text-xl text-gray-700 mb-6">You got {score} / {questions.length} correct!</p>
+              
+              <div className="flex justify-center mb-6">
+                {stars.map((earned, i) => (
+                  <span key={i} className={`reward-star ${earned ? 'earned' : ''}`}>
+                    {earned ? '⭐' : '☆'}
+                  </span>
+                ))}
+              </div>
+              
+              <button 
+                className="btn btn-green mb-4" 
+                onClick={() => {setStep(0); setScore(0); setDone(false); setStars([false, false, false]); playSound('click');}}
+              >
+                🔄 Try Again
+              </button>
             </>
           )}
-          <button className="btn btn-yellow" onClick={goBack}>🏠 Home</button>
+          
+          <button className="btn btn-yellow" onClick={() => {goBack(); playSound('click');}}>
+            🏠 Home
+          </button>
+        </div>
+      );
+    };
+
+    // Activities View
+    const ActivitiesView = ({ goBack, soundEnabled, sensoryMode }) => {
+      const [selectedActivity, setSelectedActivity] = useState(null);
+      
+      const activities = [
+        { title: "Emotion Check-in", desc: "How are you feeling today?", icon: "😊" },
+        { title: "Sensory Play", desc: "Explore different textures and sounds", icon: "🧩" },
+        { title: "Story Time", desc: "Listen to a calming story", icon: "📖" },
+        { title: "Music & Rhythm", desc: "Make music with simple instruments", icon: "🎵" },
+        { title: "Movement Break", desc: "Stretch and move your body", icon: "🤸" },
+        { title: "Creative Art", desc: "Draw, color, or create something", icon: "🎨" }
+      ];
+      
+      return (
+        <div className={`fade-in container ${sensoryMode ? 'sensory-mode' : ''}`}>
+          <h2 className="text-3xl font-bold text-blue-700 mb-6">Activities 🎨</h2>
+          
+          {activities.map((activity, index) => (
+            <div 
+              className={`activity-card ${selectedActivity === index ? 'ring-2 ring-blue-500' : ''}`}
+              key={activity.title}
+              onClick={() => {setSelectedActivity(index); playSound('click');}}
+            >
+              <div className="activity-icon">{activity.icon}</div>
+              <div className="activity-title">{activity.title}</div>
+              <div className="activity-desc">{activity.desc}</div>
+            </div>
+          ))}
+          
+          <button className="btn btn-yellow mt-4" onClick={() => {goBack(); playSound('click');}}>
+            ⬅️ Back
+          </button>
+        </div>
+      );
+    };
+
+    // Schedule View
+    const ScheduleView = ({ goBack, soundEnabled, sensoryMode }) => {
+      const scheduleItems = [
+        { time: "7:00 AM", activity: "Wake up & get dressed", icon: "🌅" },
+        { time: "7:30 AM", activity: "Breakfast time", icon: "🍳" },
+        { time: "8:00 AM", activity: "Brush teeth", icon: "🦷" },
+        { time: "9:00 AM", activity: "Learning time", icon: "📚" },
+        { time: "10:30 AM", activity: "Snack time", icon: "🍎" },
+        { time: "11:00 AM", activity: "Play time", icon: "🎮" },
+        { time: "12:00 PM", activity: "Lunch time", icon: "🍽️" },
+        { time: "1:00 PM", activity: "Quiet time", icon: "😴" },
+        { time: "2:00 PM", activity: "Outdoor time", icon: "🌳" },
+        { time: "4:00 PM", activity: "Screen time", icon: "📱" },
+        { time: "5:00 PM", activity: "Help with dinner", icon: "👨‍🍳" },
+        { time: "6:00 PM", activity: "Dinner time", icon: "🍽️" },
+        { time: "7:00 PM", activity: "Bath time", icon: "🛁" },
+        { time: "8:00 PM", activity: "Story time", icon: "📖" },
+        { time: "8:30 PM", activity: "Bedtime", icon: "🌙" }
+      ];
+      
+      return (
+        <div className={`fade-in container ${sensoryMode ? 'sensory-mode' : ''}`}>
+          <h2 className="text-3xl font-bold text-blue-700 mb-6">Daily Schedule 📅</h2>
+          
+          <div className="overflow-y-auto" style={{maxHeight: '60vh'}}>
+            {scheduleItems.map((item, index) => (
+              <div className="schedule-item" key={index}>
+                <div className="schedule-icon">{item.icon}</div>
+                <div className="schedule-text">
+                  <div className="schedule-time">{item.time}</div>
+                  <div>{item.activity}</div>
+                </div>
+                <button 
+                  className="sound-button" 
+                  onClick={() => {speak(`${item.time}, ${item.activity}`); playSound('click');}}
+                >
+                  <i className="fas fa-volume-up"></i>
+                </button>
+              </div>
+            ))}
+          </div>
+          
+          <button className="btn btn-yellow mt-4" onClick={() => {goBack(); playSound('click');}}>
+            ⬅️ Back
+          </button>
+        </div>
+      );
+    };
+
+    // Breathing Exercise View
+    const BreathingView = ({ goBack, soundEnabled, sensoryMode }) => {
+      const [breathingState, setBreathingState] = useState("ready");
+      const [count, setCount] = useState(0);
+      const intervalRef = useRef(null);
+      
+      const startBreathing = () => {
+        setBreathingState("inhale");
+        setCount(0);
+        
+        if (soundEnabled) {
+          speak("Let's take a deep breath in");
+          playSound('breathing');
+        }
+        
+        intervalRef.current = setInterval(() => {
+          setCount(prev => {
+            if (prev >= 3) {
+              if (breathingState === "inhale") {
+                setBreathingState("exhale");
+                if (soundEnabled) {
+                  speak("Now breathe out slowly");
+                }
+                return 0;
+              } else if (breathingState === "exhale") {
+                setBreathingState("inhale");
+                if (soundEnabled) {
+                  speak("Take another deep breath in");
+                }
+                return 0;
+              }
+            }
+            return prev + 1;
+          });
+        }, 1000);
+      };
+      
+      const stopBreathing = () => {
+        clearInterval(intervalRef.current);
+        setBreathingState("ready");
+        setCount(0);
+      };
+      
+      useEffect(() => {
+        return () => clearInterval(intervalRef.current);
+      }, []);
+      
+      return (
+        <div className={`fade-in container ${sensoryMode ? 'sensory-mode' : ''}`}>
+          <h2 className="text-3xl font-bold text-blue-700 mb-6">Breathing Exercise 🫁</h2>
+          
+          <p className="text-lg text-gray-600 mb-6">
+            Let's practice deep breathing to feel calm and relaxed.
+          </p>
+          
+          <div className={`breathing-circle ${breathingState === "inhale" ? "inhale" : breathingState === "exhale" ? "exhale" : ""}`}>
+            {breathingState === "ready" ? "Ready?" : breathingState === "inhale" ? "Breathe In" : "Breathe Out"}
+          </div>
+          
+          <div className="text-2xl font-bold mb-6">{count}</div>
+          
+          <div className="flex justify-center space-x-4">
+            {breathingState === "ready" ? (
+              <button 
+                className="btn btn-green" 
+                onClick={startBreathing}
+              >
+                Start Breathing
+              </button>
+            ) : (
+              <button 
+                className="btn btn-red" 
+                onClick={stopBreathing}
+              >
+                Stop
+              </button>
+            )}
+          </div>
+          
+          <button className="btn btn-yellow mt-6" onClick={() => {goBack(); playSound('click');}}>
+            ⬅️ Back
+          </button>
         </div>
       );
     };
 
     // Settings
-    const SettingsView = ({ name, setName, sound, setSound, reset, close }) => (
-      <div className="fade-in container">
+    const SettingsView = ({ 
+      name, 
+      setName, 
+      sound, 
+      setSound, 
+      soundEffects, 
+      setSoundEffects,
+      textToSpeech, 
+      setTextToSpeech,
+      sensoryMode, 
+      setSensoryMode,
+      visualAids, 
+      setVisualAids,
+      reset, 
+      close 
+    }) => (
+      <div className={`fade-in container ${sensoryMode ? 'sensory-mode' : ''}`}>
         <h2 className="text-3xl font-bold text-blue-600 mb-6">Settings ⚙️</h2>
+        
         <div className="space-y-6">
           <div>
             <label className="block text-lg font-semibold mb-2">Your Name:</label>
@@ -234,12 +857,51 @@
           </div>
 
           <div className="flex justify-between items-center bg-gray-100 p-3 rounded-2xl">
-            <label className="text-lg font-semibold">Calm Music</label>
-            <div className={`toggle ${sound ? "active" : ""}`} onClick={() => setSound(!sound)}></div>
+            <label className="text-lg font-semibold">Background Music</label>
+            <div className={`toggle ${sound ? "active" : ""}`} onClick={() => {setSound(!sound); playSound('click');}}></div>
           </div>
 
-          <button className="btn btn-red" onClick={reset}>🧹 Reset Progress</button>
-          <button className="btn btn-yellow" onClick={close}>⬅️ Back</button>
+          <div className="flex justify-between items-center bg-gray-100 p-3 rounded-2xl">
+            <label className="text-lg font-semibold">Sound Effects</label>
+            <div className={`toggle ${soundEffects ? "active" : ""}`} onClick={() => {setSoundEffects(!soundEffects); playSound('click');}}></div>
+          </div>
+
+          <div className="flex justify-between items-center bg-gray-100 p-3 rounded-2xl">
+            <label className="text-lg font-semibold">Text to Speech</label>
+            <div className={`toggle ${textToSpeech ? "active" : ""}`} onClick={() => {setTextToSpeech(!textToSpeech); playSound('click');}}></div>
+          </div>
+
+          <div className="flex justify-between items-center bg-gray-100 p-3 rounded-2xl">
+            <label className="text-lg font-semibold">Visual Aids</label>
+            <div className={`toggle ${visualAids ? "active" : ""}`} onClick={() => {setVisualAids(!visualAids); playSound('click');}}></div>
+          </div>
+
+          <div className="flex justify-between items-center bg-gray-100 p-3 rounded-2xl">
+            <label className="text-lg font-semibold">Sensory Mode</label>
+            <div className={`toggle ${sensoryMode ? "active" : ""}`} onClick={() => {setSensoryMode(!sensoryMode); playSound('click');}}></div>
+          </div>
+
+          <div>
+            <label className="block text-lg font-semibold mb-2">Visual Preferences:</label>
+            <div className="sensory-options">
+              <div className={`sensory-option ${!sensoryMode ? 'selected' : ''}`} onClick={() => {setSensoryMode(false); playSound('click');}}>
+                <div className="pictogram">🌈</div>
+                <div>Colorful</div>
+              </div>
+              <div className={`sensory-option ${sensoryMode ? 'selected' : ''}`} onClick={() => {setSensoryMode(true); playSound('click');}}>
+                <div className="pictogram">🌑</div>
+                <div>Dark Mode</div>
+              </div>
+            </div>
+          </div>
+
+          <button className="btn btn-red" onClick={() => {reset(); playSound('click');}}>
+            🧹 Reset Progress
+          </button>
+          
+          <button className="btn btn-yellow" onClick={() => {close(); playSound('click');}}>
+            ⬅️ Back
+          </button>
         </div>
       </div>
     );
@@ -248,6 +910,10 @@
       const [page, setPage] = useState("start");
       const [name, setName] = useState("");
       const [sound, setSound] = useState(false);
+      const [soundEffects, setSoundEffects] = useState(true);
+      const [textToSpeech, setTextToSpeech] = useState(true);
+      const [sensoryMode, setSensoryMode] = useState(false);
+      const [visualAids, setVisualAids] = useState(true);
 
       useBackgroundMusic(sound);
 
@@ -256,21 +922,105 @@
         alert("Progress reset! Let's start again!");
       };
 
+      // Override playSound based on settings
+      const conditionalPlaySound = (soundType) => {
+        if (soundEffects) {
+          playSound(soundType);
+        }
+      };
+
+      // Override speak based on settings
+      const conditionalSpeak = (text) => {
+        if (textToSpeech) {
+          speak(text);
+        }
+      };
+
       return (
         <>
-          {page === "start" && <StartScreen onStart={() => setPage("home")} />}
-          {page === "home" && <HomeView name={name} navigate={setPage} />}
-          {page === "learn" && <LearnView goBack={() => setPage("home")} />}
-          {page === "quiz" && <QuizView goBack={() => setPage("home")} />}
+          {page === "start" && (
+            <StartScreen 
+              onStart={() => setPage("home")} 
+              soundEnabled={textToSpeech}
+            />
+          )}
+          
+          {page === "home" && (
+            <HomeView 
+              name={name} 
+              navigate={setPage} 
+              soundEnabled={textToSpeech}
+              sensoryMode={sensoryMode}
+            />
+          )}
+          
+          {page === "learn" && (
+            <LearnView 
+              goBack={() => setPage("home")} 
+              soundEnabled={textToSpeech}
+              sensoryMode={sensoryMode}
+            />
+          )}
+          
+          {page === "quiz" && (
+            <QuizView 
+              goBack={() => setPage("home")} 
+              soundEnabled={textToSpeech}
+              sensoryMode={sensoryMode}
+            />
+          )}
+          
+          {page === "activities" && (
+            <ActivitiesView 
+              goBack={() => setPage("home")} 
+              soundEnabled={textToSpeech}
+              sensoryMode={sensoryMode}
+            />
+          )}
+          
+          {page === "schedule" && (
+            <ScheduleView 
+              goBack={() => setPage("home")} 
+              soundEnabled={textToSpeech}
+              sensoryMode={sensoryMode}
+            />
+          )}
+          
+          {page === "breathing" && (
+            <BreathingView 
+              goBack={() => setPage("home")} 
+              soundEnabled={textToSpeech}
+              sensoryMode={sensoryMode}
+            />
+          )}
+          
           {page === "settings" && (
             <SettingsView
               name={name}
               setName={setName}
               sound={sound}
               setSound={setSound}
+              soundEffects={soundEffects}
+              setSoundEffects={setSoundEffects}
+              textToSpeech={textToSpeech}
+              setTextToSpeech={setTextToSpeech}
+              sensoryMode={sensoryMode}
+              setSensoryMode={setSensoryMode}
+              visualAids={visualAids}
+              setVisualAids={setVisualAids}
               reset={resetAll}
               close={() => setPage("home")}
             />
+          )}
+          
+          {/* Floating help button */}
+          {page !== "start" && page !== "settings" && (
+            <div 
+              className="floating-button" 
+              onClick={() => {conditionalSpeak("You are currently on the " + page + " page. If you need help, ask a grown up."); conditionalPlaySound('click');}}
+            >
+              <i className="fas fa-question"></i>
+            </div>
           )}
         </>
       );
